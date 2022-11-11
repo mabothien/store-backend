@@ -12,7 +12,5 @@
     "node_modules",
     "./build",
     "spec",
-    "typings/browser.d.ts",
-    "typings/browser"
   ]
 }
