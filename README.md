@@ -1,4 +1,4 @@
-# CRUD Stickers
+# STORE BACKEND
 
 ## Setup
 
