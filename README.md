@@ -1,35 +1,80 @@
-### Scripts
+# CRUD Stickers
 
-#### `npm run dev`
+## Setup
+
+```sh
+npm install
+```
+
+## Run
 
 Starts the application in development environment.
 
-#### `npm run start`
+```sh
+npm run dev
+```
 
-Starts building the project with `npm run build`, and then executing the compiled JavaScript at `build/index.js`.
+Starts building the project with`npm run build`, and then executing the compiled JavaScript at`build/index.js`.
 
-#### `npm run build`
+```sh
+npm run start
+```
+
+## build
 
 Builds the app at `build`, cleaning the folder first.
 
-#### `npm run test-code`
+```sh
+npm run build
+```
+
+## Test
+
+Test source code
+
+```sh
+npm run test-source
+```
+
+Test all
+
+```sh
+npm run test
+```
 
 Runs the `jasmine` tests once.
 
-#### `npm run prettier-format`
+## Format
 
-Format your code.
+Lint
 
-#### `npm run lint`
+```sh
+npm run lint
+```
 
-Lint your code.
+pretitter
 
-#### `npm run test`
+```sh
+npm run prettier-format
+```
 
-Testing model with migrate.
+## End point List
 
-#### `End point example`
+USER:
+`Index`: <http://localhost:8000/api/user>
+`Show`: <http://localhost:8000/api/user/1>
+`Create`: <http://localhost:8000/api/user?firstname=long&lastname=tran&username=longtran&password=123>
 
-http://localhost:8000/api/product
+PRODUCT:
+`Index`: <http://localhost:8000/api/product>
+`Show`: <http://localhost:8000/api/product/1>
+`Create`: <http://localhost:8000/api/product?name=test&price=20000>
 
+ORDER:
+`Get order by user id`: <http://localhost:8000/api/order?id=1>
+
+## Migrate database
+
+```sh
 db-migrate up initialize
+```

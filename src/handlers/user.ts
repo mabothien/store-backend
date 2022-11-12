@@ -15,7 +15,7 @@ export const create = async (
   try {
     const user = await userModel.create(req.body);
     res.json({
-      status: 'success',
+      status: 200,
       data: { ...user },
       message: 'Product created successfully',
     });
@@ -28,7 +28,7 @@ export const getAll = async (_: Request, res: Response, next: NextFunction) => {
   try {
     const users = await userModel.index();
     res.json({
-      status: 'success',
+      status: 200,
       data: users,
       message: 'Successfully',
     });
@@ -46,7 +46,7 @@ export const getUserById = async (
     const { id } = req.params;
     const user = await userModel.getUserById(id as string);
     res.json({
-      status: 'success',
+      status: 200,
       data: user,
       message: 'Successfully',
     });
@@ -67,17 +67,18 @@ export const authenticate = async (
       { user },
       process.env.TOKEN_SECRET_KEY as unknown as string,
     );
-    if (!user) {
+    if (user) {
+      return res.json({
+        status: 200,
+        data: { ...user, token },
+        message: 'user authenticated successfully',
+      });
+    } else {
       return res.status(401).json({
         status: 'error',
-        message: 'the username and password do not match please try again',
+        message: 'Invalid Credentials',
       });
     }
-    return res.json({
-      status: 'success',
-      data: { ...user, token },
-      message: 'user authenticated successfully',
-    });
   } catch (err) {
     return next(err);
   }

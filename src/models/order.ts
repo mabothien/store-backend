@@ -11,27 +11,27 @@ class OrderModel {
   async create(
     status: string,
     quantity: number,
-    orderId: string,
+    userId: string,
     productId: string,
   ): Promise<Order> {
     try {
       const conn = await db.connect();
       const sql =
         'INSERT INTO public.orders(status, user_id, quantity, product_id) VALUES($1, $2, $3, $4) RETURNING *';
-      const result = await conn.query(sql, [quantity, orderId, productId]);
+      const result = await conn.query(sql, [quantity, userId, productId]);
       const order = result.rows[0];
       conn.release();
       return order;
     } catch (error) {
       throw new Error(
-        `Could not add product ${productId} to order ${orderId}: ${error}`,
+        `Could not order with product id: ${productId}: ${error}`,
       );
     }
   }
 
   async getOrderById(user_id: number): Promise<Order> {
     try {
-      const sql = `SELECT * FROM orders
+      const sql = `SELECT * FROM public.orders
         WHERE id=($1)`;
       const connection = await db.connect();
       const result = await connection.query(sql, [user_id]);
@@ -47,7 +47,7 @@ class OrderModel {
   async getAll(): Promise<Order[]> {
     try {
       const connection = await db.connect();
-      const sql = 'SELECT * from orders';
+      const sql = 'SELECT * from public.orders';
       const result = await connection.query(sql);
       connection.release();
       return result.rows;

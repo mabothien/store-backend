@@ -10,38 +10,33 @@ type Error = {
   stack?: string;
 };
 
-const handleUnauthorizedError = (next: NextFunction) => {
-  const error: Error = new Error('Login Error, Please login again');
-  error.status = 401;
-  next(error);
-};
-
-const validateToken = (req: Request, _res: Response, next: NextFunction) => {
+const validateToken = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const authHeader = req.get('Authorization');
+    const authHeader = req.headers.authorization;
     if (authHeader) {
-      const bearer = authHeader.split(' ')[0].toLowerCase();
       const token = authHeader.split(' ')[1];
+      const bearer = authHeader.split(' ')[0].toLowerCase();
       if (token && bearer === 'bearer') {
-        const decode = jwt.verify(
+        jwt.verify(
           token,
           process.env.TOKEN_SECRET_KEY as unknown as string,
+          (err) => {
+            if (err) {
+              return res.sendStatus(403);
+            }
+            next();
+          },
         );
-        if (decode) {
-          next();
-        } else {
-          handleUnauthorizedError(next);
-        }
       } else {
         // token type not bearer
-        handleUnauthorizedError(next);
+        res.status(401).send({ error: 'token type not bearer' });
       }
     } else {
       // No Token Provided.
-      handleUnauthorizedError(next);
+      res.sendStatus(401);
     }
   } catch (err) {
-    handleUnauthorizedError(next);
+    res.status(401).send({ error: 'Not authorized to access this resource' });
   }
 };
 

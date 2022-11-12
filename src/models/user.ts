@@ -33,13 +33,11 @@ class UserModel {
       const saltRounds = bcrypt.genSaltSync(
         process.env.SALT_ROUND as unknown as number,
       );
-      const hash = bcrypt.hashSync(u.password, parseInt(saltRounds));
+      const hashedPassword = bcrypt.hashSync(u.password, parseInt(saltRounds));
 
       const result = await conn.query(sql, [
-        u.firstName,
-        u.lastName,
         u.username,
-        hash,
+        hashedPassword,
       ]);
 
       const user = result.rows[0];
@@ -62,7 +60,7 @@ class UserModel {
       return result.rows[0];
     } catch (error) {
       throw new Error(
-        `Could not find product ${id}, ${(error as Error).message}`,
+        `Could not find user: ${id}, ${(error as Error).message}`,
       );
     }
   }
