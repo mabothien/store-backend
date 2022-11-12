@@ -62,12 +62,16 @@ npm run prettier-format
 
 USER:
 `Index`: <http://localhost:8000/api/user>
+
 `Show`: <http://localhost:8000/api/user/1>
+
 `Create`: <http://localhost:8000/api/user?firstname=long&lastname=tran&username=longtran&password=123>
 
 PRODUCT:
 `Index`: <http://localhost:8000/api/product>
+
 `Show`: <http://localhost:8000/api/product/1>
+
 `Create`: <http://localhost:8000/api/product?name=test&price=20000>
 
 ORDER:
