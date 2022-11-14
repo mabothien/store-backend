@@ -26,10 +26,10 @@ export const create = async (
 
 export const getAll = async (_: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await userModel.index();
+    const user = await userModel.index();
     res.json({
       status: 200,
-      data: users,
+      data: user,
       message: 'Successfully',
     });
   } catch (err) {

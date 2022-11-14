@@ -3,13 +3,6 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
-type Error = {
-  status?: number;
-  name?: string;
-  message?: string;
-  stack?: string;
-};
-
 const validateToken = (req: Request, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers.authorization;
