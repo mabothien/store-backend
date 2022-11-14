@@ -18,7 +18,12 @@ class OrderModel {
       const conn = await db.connect();
       const sql =
         'INSERT INTO public.orders(status, user_id, quantity, product_id) VALUES($1, $2, $3, $4) RETURNING *';
-      const result = await conn.query(sql, [status, userId, quantity, productId]);
+      const result = await conn.query(sql, [
+        status,
+        userId,
+        quantity,
+        productId,
+      ]);
       const order = result.rows[0];
       conn.release();
       return order;

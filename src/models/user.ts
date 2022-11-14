@@ -73,7 +73,7 @@ class UserModel {
         if (bcrypt.compareSync(password, user.password)) {
           const userInfo = await connection.query(
             'SELECT username, "firstName", "lastName" FROM public."user" WHERE username=($1)',
-            [username]
+            [username],
           );
           return userInfo.rows[0];
         }
