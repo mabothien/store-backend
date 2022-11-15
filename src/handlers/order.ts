@@ -51,3 +51,37 @@ export const getOrderById = async (
     next(err);
   }
 };
+
+export const updateById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const order = await orderModel.update(req.body);
+    res.json({
+      status: 'success',
+      data: order,
+      message: 'Successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const order = await orderModel.delete(req.params.id as unknown as string);
+    res.json({
+      status: 'success',
+      data: order,
+      message: 'Successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+};

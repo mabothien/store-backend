@@ -46,3 +46,41 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
     next(err);
   }
 };
+
+
+export const updateById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const product = await productModel.update(req.body);
+    res.json({
+      status: 'success',
+      data: product,
+      message: 'Successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const product = await productModel.delete(
+      req.params.id as unknown as string
+    );
+    res.json({
+      status: 'success',
+      data: product,
+      message: 'Successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
