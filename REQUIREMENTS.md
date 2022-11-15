@@ -5,16 +5,26 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index 
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products 
+- Index <http://localhost:8000/api/product>
+- Show <http://localhost:8000/api/product/1>
+- Create [token required] <http://localhost:8000/api/product/create>
+- body json : {
+   "name":"test",
+   "price":"20000",
+}
+- [OPTIONAL] Top 5 most popular products
 - [OPTIONAL] Products by category (args: product category)
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index [token required] <http://localhost:8000/api/user>
+- Show [token required] <http://localhost:8000/api/user/1>
+- Create N[token required] <http://localhost:8000/api/user/create>
+- body json for create api: {
+  "firstName":"long",
+  "lastName":"tran",
+  "username":"longtran",
+  "password":"long123"
+  }
 
 #### Orders
 - Current Order by user (args: user id)[token required]
@@ -27,11 +37,26 @@ These are the notes from a meeting with the frontend developer that describe wha
 - price
 - [OPTIONAL] category
 
+## `Indexes[]`
+
+| `Columns`           | `Cluster` | `Unique` |
+| ------------------- | --------- | -------- |
+| name                 | `true`    | `false`  |
+| price             | `false`   | `false`  |
 #### User
 - id
 - firstName
 - lastName
 - password
+
+## `Indexes[]`
+
+| `Columns`           | `Cluster` | `Unique` |
+| ------------------- | --------- | -------- |
+| firstName                 | `true`    | `false`  |
+| lastName             | `false`   | `false`  |
+| username             | `false`   | `false`  |
+| password             | `false`   | `false`  |
 
 #### Orders
 - id
@@ -40,3 +65,12 @@ These are the notes from a meeting with the frontend developer that describe wha
 - user_id
 - status of order (active or complete)
 
+## `Indexes[]`
+
+| `Columns`           | `Cluster` | `Unique` |
+| ------------------- | --------- | -------- |
+| id                 | `true`    | `false`  |
+| product_id             | `false`   | `false`  |
+| quantity             | `false`   | `false`  |
+| user_id             | `false`   | `false`  |
+| status             | `false`   | `false`  |
