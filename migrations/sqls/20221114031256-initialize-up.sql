@@ -14,6 +14,13 @@ CREATE TABLE IF NOT EXISTS public.product
     price integer NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS product_quantity(
+    id SERIAL PRIMARY KEY,
+    orderId SERIAL,
+    productId SERIAL,
+    quantity integer
+);
+
 CREATE TABLE IF NOT EXISTS public."user"
 (
     id SERIAL PRIMARY KEY,
@@ -24,4 +31,5 @@ CREATE TABLE IF NOT EXISTS public."user"
 );
 
 alter table "orders" add foreign key (user_id) REFERENCES "user"(id);
-alter table "orders" add foreign key (product_id) REFERENCES product(id);
+alter table product_quantity add foreign key (orderId) REFERENCES "order"(id);
+alter table product_quantity add foreign key (productId) REFERENCES product(id);
