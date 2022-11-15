@@ -11,11 +11,6 @@ const app: Application = express();
 const port = process.env.PORT;
 
 app.use(cors(corsOptions));
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  }),
-);
 app.use(bodyParser.json());
 app.use(errorHandler);
 app.use('/api', apiRoute);

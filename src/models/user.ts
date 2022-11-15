@@ -30,6 +30,7 @@ class UserModel {
       const sql =
         'INSERT INTO public."user" ("firstName", "lastName" , username, password) VALUES($1, $2, $3, $4) RETURNING *';
       const saltRounds = bcrypt.genSaltSync(10);
+
       const hashedPassword = bcrypt.hashSync(u.password, parseInt(saltRounds));
       const result = await conn.query(sql, [
         u.firstName,
