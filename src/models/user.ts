@@ -63,6 +63,47 @@ class UserModel {
     }
   }
 
+  async update(u: User): Promise<User> {
+    try {
+      const connection = await db.connect();
+      const sql = `UPDATE public."user" 
+                    SET firstName=$1, lastName=$2, username=$3, password=$4, 
+                    WHERE id=$5
+                    RETURNING id, firstName, lastName, ussername`;
+
+      const result = await connection.query(sql, [
+        u.firstName,
+        u.lastName,
+        u.username,
+        u.password,
+        u.id
+      ]);
+      connection.release();
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(
+        `Update fail, ${(error as Error).message
+        }`
+      );
+    }
+  }
+
+  async delete(id: string): Promise<User> {
+    try {
+      const connection = await db.connect();
+      const sql = `DELETE FROM public."user" 
+                    WHERE id=($1) 
+                    RETURNING id, username`;
+      const result = await connection.query(sql, [id]);
+      connection.release();
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(
+        `Delete user fail, ${(error as Error).message}`
+      );
+    }
+  }
+
   async authenticate(username: string, password: string): Promise<User | null> {
     try {
       const connection = await db.connect();

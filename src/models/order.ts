@@ -60,6 +60,39 @@ class OrderModel {
       throw new Error(`Error at ${(error as Error).message}`);
     }
   }
+
+  async update(u: Order): Promise<Order> {
+    try {
+      const connection = await db.connect();
+      const sql = `UPDATE public.orders 
+                    SET status=$1 
+                    WHERE id=$2
+                    RETURNING id, status`;
+      const result = await connection.query(sql, [u.status, u.id]);
+      connection.release();
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(
+        `Update order fail, ${(error as Error).message}`
+      );
+    }
+  }
+
+  async delete(id: string): Promise<Order> {
+    try {
+      const connection = await db.connect();
+      const sql = `DELETE FROM public.orders 
+                    WHERE id=($1) 
+                    RETURNING id, name`;
+      const result = await connection.query(sql, [id]);
+      connection.release();
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(
+        `Delete order fail, ${(error as Error).message}`
+      );
+    }
+  }
 }
 
 export default OrderModel;

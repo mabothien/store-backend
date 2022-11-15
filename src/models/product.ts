@@ -51,6 +51,39 @@ class ProductModel {
       );
     }
   }
+
+  async update(u: Product): Promise<Product> {
+    try {
+      const connection = await db.connect();
+      const sql = `UPDATE public.product 
+                    SET name=$1, price=$2, 
+                    WHERE id=$3
+                    RETURNING id, name, price`;
+      const result = await connection.query(sql, [u.name, u.price, u.id]);
+      connection.release();
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(
+        `Update product fail, ${(error as Error).message}`
+      );
+    }
+  }
+
+  async delete(id: string): Promise<Product> {
+    try {
+      const connection = await db.connect();
+      const sql = `DELETE FROM public.product 
+                    WHERE id=($1) 
+                    RETURNING id, name`;
+      const result = await connection.query(sql, [id]);
+      connection.release();
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(
+        `Delete user fail, ${(error as Error).message}`
+      );
+    }
+  }
 }
 
 export default ProductModel;
