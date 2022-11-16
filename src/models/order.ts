@@ -4,7 +4,6 @@ export type Order = {
   status: string;
   user_id: string;
   quantity: number;
-  product_id: number;
 };
 
 class OrderModel {
@@ -12,25 +11,17 @@ class OrderModel {
     status: string,
     quantity: number,
     userId: string,
-    productId: string,
   ): Promise<Order> {
     try {
       const conn = await db.connect();
       const sql =
-        'INSERT INTO public.orders(status, user_id, quantity, product_id) VALUES($1, $2, $3, $4) RETURNING *';
-      const result = await conn.query(sql, [
-        status,
-        userId,
-        quantity,
-        productId,
-      ]);
+        'INSERT INTO public.orders(status, user_id, quantity) VALUES($1, $2, $3) RETURNING *';
+      const result = await conn.query(sql, [status, userId, quantity]);
       const order = result.rows[0];
       conn.release();
       return order;
     } catch (error) {
-      throw new Error(
-        `Could not order with product id: ${productId}: ${error}`,
-      );
+      throw new Error(`Could not order with user id: ${userId}: ${error}`);
     }
   }
 
@@ -64,33 +55,29 @@ class OrderModel {
   async update(u: Order): Promise<Order> {
     try {
       const connection = await db.connect();
-      const sql = `UPDATE public.orders 
-                    SET status=$1 
+      const sql = `UPDATE public.orders
+                    SET status=$1
                     WHERE id=$2
                     RETURNING id, status`;
       const result = await connection.query(sql, [u.status, u.id]);
       connection.release();
       return result.rows[0];
     } catch (error) {
-      throw new Error(
-        `Update order fail, ${(error as Error).message}`
-      );
+      throw new Error(`Update order fail, ${(error as Error).message}`);
     }
   }
 
   async delete(id: string): Promise<Order> {
     try {
       const connection = await db.connect();
-      const sql = `DELETE FROM public.orders 
-                    WHERE id=($1) 
+      const sql = `DELETE FROM public.orders
+                    WHERE id=($1)
                     RETURNING id, name`;
       const result = await connection.query(sql, [id]);
       connection.release();
       return result.rows[0];
     } catch (error) {
-      throw new Error(
-        `Delete order fail, ${(error as Error).message}`
-      );
+      throw new Error(`Delete order fail, ${(error as Error).message}`);
     }
   }
 }

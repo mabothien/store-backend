@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS public.orders
     status character varying(15) COLLATE pg_catalog."default",
     user_id SERIAL,
     quantity integer,
-    product_id SERIAL
 );
 
 CREATE TABLE IF NOT EXISTS public.product
@@ -14,7 +13,7 @@ CREATE TABLE IF NOT EXISTS public.product
     price integer NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS product_order(
+CREATE TABLE IF NOT EXISTS public.product_order(
     id SERIAL PRIMARY KEY,
     orderId SERIAL,
     productId SERIAL,
@@ -30,6 +29,6 @@ CREATE TABLE IF NOT EXISTS public."user"
     username character varying(100) COLLATE pg_catalog."default"
 );
 
-alter table "orders" add foreign key (user_id) REFERENCES "user"(id);
-alter table product_order add foreign key (orderId) REFERENCES "order"(id);
-alter table product_order add foreign key (productId) REFERENCES product(id);
+alter table public.orders add foreign key (user_id) REFERENCES public."user"(id);
+alter table public.product_order add foreign key (orderId) REFERENCES public.orders(id);
+alter table public.product_order add foreign key (productId) REFERENCES public.product(id);

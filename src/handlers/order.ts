@@ -9,8 +9,8 @@ export const create = async (
   next: NextFunction,
 ) => {
   try {
-    const { status, quantity, orderId, productId } = req.body;
-    const order = await orderModel.create(status, quantity, orderId, productId);
+    const { status, quantity, orderId } = req.body;
+    const order = await orderModel.create(status, quantity, orderId);
     res.json({
       status: 'success',
       data: { ...order },
@@ -55,14 +55,14 @@ export const getOrderById = async (
 export const updateById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const order = await orderModel.update(req.body);
     res.json({
       status: 'success',
       data: order,
-      message: 'Successfully'
+      message: 'Successfully',
     });
   } catch (err) {
     next(err);
@@ -72,14 +72,14 @@ export const updateById = async (
 export const deleteById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const order = await orderModel.delete(req.params.id as unknown as string);
     res.json({
       status: 'success',
       data: order,
-      message: 'Successfully'
+      message: 'Successfully',
     });
   } catch (err) {
     next(err);

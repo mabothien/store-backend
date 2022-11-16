@@ -63,9 +63,7 @@ class ProductModel {
       connection.release();
       return result.rows[0];
     } catch (error) {
-      throw new Error(
-        `Update product fail, ${(error as Error).message}`
-      );
+      throw new Error(`Update product fail, ${(error as Error).message}`);
     }
   }
 
@@ -79,9 +77,7 @@ class ProductModel {
       connection.release();
       return result.rows[0];
     } catch (error) {
-      throw new Error(
-        `Delete user fail, ${(error as Error).message}`
-      );
+      throw new Error(`Delete user fail, ${(error as Error).message}`);
     }
   }
 }

@@ -58,14 +58,14 @@ export const getUserById = async (
 export const updateById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const user = await userModel.update(req.body);
     res.json({
       status: 'success',
       data: user,
-      message: 'Successfully'
+      message: 'Successfully',
     });
   } catch (err) {
     next(err);
@@ -75,14 +75,14 @@ export const updateById = async (
 export const deleteById = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const user = await userModel.delete(req.params.id as unknown as string);
     res.json({
       status: 'success',
       data: user,
-      message: 'Successfully'
+      message: 'Successfully',
     });
   } catch (err) {
     next(err);

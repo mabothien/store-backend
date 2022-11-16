@@ -76,15 +76,12 @@ class UserModel {
         u.lastName,
         u.username,
         u.password,
-        u.id
+        u.id,
       ]);
       connection.release();
       return result.rows[0];
     } catch (error) {
-      throw new Error(
-        `Update fail, ${(error as Error).message
-        }`
-      );
+      throw new Error(`Update fail, ${(error as Error).message}`);
     }
   }
 
@@ -98,9 +95,7 @@ class UserModel {
       connection.release();
       return result.rows[0];
     } catch (error) {
-      throw new Error(
-        `Delete user fail, ${(error as Error).message}`
-      );
+      throw new Error(`Delete user fail, ${(error as Error).message}`);
     }
   }
 

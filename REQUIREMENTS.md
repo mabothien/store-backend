@@ -1,25 +1,24 @@
 # API Requirements
 The company stakeholders want to create an online storefront to showcase their great product ideas. Users need to be able to browse an index of all products, see the specifics of a single product, and add products to an order that they can view in a cart page. You have been tasked with building the API that will support this application, and your coworker is building the frontend.
 
-These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application. 
+These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application.
 
 ## API Endpoints
 #### Products
-- Index <http://localhost:8000/api/product>
-- Show <http://localhost:8000/api/product/1>
-- Create [token required] <http://localhost:8000/api/product/create>
-- body json : {
+- Index:  <http://localhost:8000/api/product> [GET]
+- Show: <http://localhost:8000/api/product/:id> [GET]
+- Create: [token required] <http://localhost:8000/api/product/create> [POST]
+  body json : {
    "name":"test",
-   "price":"20000",
+   "price":"20000"
 }
-- [OPTIONAL] Top 5 most popular products
-- [OPTIONAL] Products by category (args: product category)
 
 #### Users
-- Index [token required] <http://localhost:8000/api/user>
-- Show [token required] <http://localhost:8000/api/user/1>
-- Create N[token required] <http://localhost:8000/api/user/create>
-- body json for create api: {
+
+- Index [token required] : <http://localhost:8000/api/user> [GET]
+- Show [token required] <http://localhost:8000/api/user/:id> [GET]
+- Create N[token required]: <http://localhost:8000/api/user/create> [POST]
+  body json: {
   "firstName":"long",
   "lastName":"tran",
   "username":"longtran",
@@ -27,9 +26,15 @@ These are the notes from a meeting with the frontend developer that describe wha
   }
 
 #### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+- Current Order by user (args: user id)[token required]: <http://localhost:8000/api/order?id=:id> [GET]
 
+#### Add products to Order
+- Create [token required]: <http://localhost:8000/api/productOrder/create> [POST]
+  body json: {
+  "orderId":"1",
+  "productId":1,
+  "quantity":"1"
+  }
 ## Data Shapes
 #### Product
 -  id
@@ -37,26 +42,30 @@ These are the notes from a meeting with the frontend developer that describe wha
 - price
 - [OPTIONAL] category
 
-## `Indexes[]`
+## `public.product`
 
-| `Columns`           | `Cluster` | `Unique` |
-| ------------------- | --------- | -------- |
-| name                 | `true`    | `false`  |
-| price             | `false`   | `false`  |
+| `Columns`           | `type`
+| ------------------- | ---------
+| id                 | `SERIAL`
+| name                 | `character varying(64)`
+| price             | `integer`
+
 #### User
 - id
 - firstName
 - lastName
 - password
+- username
+-
+## `public."user"`
 
-## `Indexes[]`
-
-| `Columns`           | `Cluster` | `Unique` |
-| ------------------- | --------- | -------- |
-| firstName                 | `true`    | `false`  |
-| lastName             | `false`   | `false`  |
-| username             | `false`   | `false`  |
-| password             | `false`   | `false`  |
+| `Columns`           | `type`
+| ------------------- | ---------
+| id                 | `SERIAL`
+| firstName                 | `character varying(100)`
+| lastName             | `character varying(100)`
+| username             | `character varying`
+| password             | `character varying(100)`
 
 #### Orders
 - id
@@ -65,12 +74,21 @@ These are the notes from a meeting with the frontend developer that describe wha
 - user_id
 - status of order (active or complete)
 
-## `Indexes[]`
+## `public.orders`
 
-| `Columns`           | `Cluster` | `Unique` |
-| ------------------- | --------- | -------- |
-| id                 | `true`    | `false`  |
-| product_id             | `false`   | `false`  |
-| quantity             | `false`   | `false`  |
-| user_id             | `false`   | `false`  |
-| status             | `false`   | `false`  |
+| `Columns`           | `type`
+| ------------------- | ---------
+| id                 | `SERIAL`
+| status                 | `character varying(15)`
+| user_id             | `SERIAL`
+| quantity             | `integer`
+
+
+## `public.product_order`
+
+| `Columns`           | `type`
+| ------------------- | ---------
+| id                 | `SERIAL`
+| orderId                 | `SERIAL`
+| productId             | `SERIAL`
+| quantity             | `integer`
